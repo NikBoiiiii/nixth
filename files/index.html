@@ -1,0 +1,109 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nik's Casino</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 20%,#241a3a,#0a0710 70%);color:#f3eee0;font:15px Inter,system-ui;height:100vh;overflow:hidden}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(2px 2px at 20% 30%,#fff6,transparent),radial-gradient(2px 2px at 70% 60%,#ffd54a55,transparent),radial-gradient(2px 2px at 40% 80%,#fff4,transparent);animation:tw 6s infinite alternate;pointer-events:none}
+@keyframes tw{to{opacity:.3}}
+button{font:800 15px Inter;border:0;border-radius:14px;padding:12px 20px;cursor:pointer;color:#1a1200;background:linear-gradient(180deg,#ffe27a,#d4a017);box-shadow:0 5px 0 #8a6508,0 10px 20px #0008;transition:.15s}
+button:hover{transform:translateY(-2px)}button:active{transform:translateY(3px);box-shadow:0 2px 0 #8a6508}button:disabled{opacity:.35}
+button.g{background:#2a2540;color:#eee;box-shadow:0 4px 0 #14102a}button.sm{padding:10px 14px;font-size:18px}
+input{padding:14px;border-radius:12px;border:1px solid #6b5a2a;background:#120e1f;color:#fff;font:600 16px Inter}
+#home{max-width:640px;margin:9vh auto;text-align:center;padding:20px;animation:rise .9s both}
+@keyframes rise{from{opacity:0;transform:translateY(30px)}}
+.logo{font:800 64px Cinzel,serif;margin:0;background:linear-gradient(90deg,#ffe27a,#fff6c8,#d4a017,#ffe27a);background-size:300%;-webkit-background-clip:text;color:transparent;animation:sh 4s linear infinite;filter:drop-shadow(0 0 18px #d4a01766)}
+@keyframes sh{to{background-position:300%}}
+.sub{font:600 22px Cinzel;letter-spacing:4px;color:#ffd54a;margin:6px 0}#home p{opacity:.75;font-size:17px}
+.suits{font-size:40px;letter-spacing:14px;animation:fl 3s ease-in-out infinite}@keyframes fl{50%{transform:translateY(-10px)}}
+.big{font-size:20px;padding:16px 30px;margin:6px}
+#game{display:none;height:100%;position:relative}
+#felt{position:absolute;left:11%;right:11%;top:13%;bottom:25%;border-radius:50%;background:radial-gradient(ellipse at 50% 40%,#1fa874,#0c5a41 55%,#06362a);border:16px solid #2a1810;box-shadow:0 0 0 4px #d4a017,0 0 80px #000 inset,0 25px 80px #000,0 0 60px #1fa87433}
+#felt:after{content:"NIK'S CASINO";position:absolute;left:50%;top:70%;transform:translateX(-50%);font:800 24px Cinzel;letter-spacing:8px;color:#ffffff22}
+#center{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);text-align:center;width:90%}
+.room{font-size:11px;letter-spacing:3px;opacity:.7}.pot{font:800 28px Cinzel;color:#ffe27a;text-shadow:0 2px 10px #000}
+.win{font:800 22px Cinzel;color:#ffe27a;animation:pop .6s both;text-shadow:0 0 20px #ffd54a}.win small{display:block;font:600 13px Inter;color:#fff}
+.chip{display:inline-block;width:20px;height:20px;border-radius:50%;background:radial-gradient(#d33 40%,#fff 42% 50%,#d33 52%);border:2px dashed #fff;vertical-align:middle;box-shadow:0 2px 4px #000;margin-right:-8px}.chip.c2{background:radial-gradient(#27a 40%,#fff 42% 50%,#27a 52%)}.chip.c3{background:radial-gradient(#222 40%,#fff 42% 50%,#222 52%)}
+.card{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:56px;height:80px;margin:3px;border-radius:9px;background:linear-gradient(145deg,#fff,#e8e4d8);color:#111;box-shadow:0 6px 14px #000a;font-family:Georgia,serif}
+.card i{font:700 26px Georgia;font-style:normal;line-height:1}.card b{font-size:24px;line-height:1}.card.r{color:#c4162a}
+.card.b{background:repeating-linear-gradient(45deg,#8c1d3a,#8c1d3a 5px,#5e1226 5px,#5e1226 10px);border:3px solid #fff}
+.card.deal{animation:deal .55s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes deal{from{opacity:0;transform:translate(0,-160px) rotate(-200deg) scale(.4)}}
+@keyframes pop{from{opacity:0;transform:scale(.3)}}
+.seat{position:absolute;transform:translate(-50%,-50%);width:152px;text-align:center;background:linear-gradient(180deg,#1d1730ee,#0f0b1cee);border:2px solid #3a3256;border-radius:18px;padding:6px;transition:.3s;box-shadow:0 10px 30px #000a}
+.seat.turn{border-color:#ffd54a;animation:pulse 1.2s infinite}@keyframes pulse{50%{box-shadow:0 0 34px #ffd54a,0 10px 30px #000a}}
+.seat.out{opacity:.5;filter:grayscale(.6)}.seat.off{border-style:dashed}
+.seat video{width:100%;height:88px;object-fit:cover;border-radius:12px;background:#000 radial-gradient(#2a2540,#0a0710)}
+.seat .card{width:34px;height:48px;margin:2px;border-radius:6px}.seat .card i{font-size:15px}.seat .card b{font-size:14px}
+.nm{font:800 14px Cinzel}.stk{color:#7dffc0;font-weight:800;font-size:16px}.tag{display:inline-block;margin:2px;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:800;background:#a855f7}.tag.off{background:#555}
+.bet{display:inline-block;background:#000a;border-radius:99px;padding:3px 10px;font-weight:800;color:#ffe27a;margin:2px}.bet.deal{animation:pop .4s both}
+.d{background:#fff;color:#000;border-radius:50%;padding:1px 7px;font-size:11px;font-weight:800;animation:pop .5s}
+#bar{position:absolute;bottom:0;left:0;right:0;padding:14px;display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;background:linear-gradient(0deg,#000d,transparent);animation:rise .5s}
+.act{font-size:20px;padding:18px 34px;min-width:130px;letter-spacing:1px;border-radius:16px}
+.fold{background:linear-gradient(180deg,#ff7b7b,#c62828);color:#fff;box-shadow:0 6px 0 #7a1212,0 12px 24px #0008}
+.call{background:linear-gradient(180deg,#6dffb0,#12a35a);color:#032;box-shadow:0 6px 0 #0a6638,0 12px 24px #0008}
+.raise{background:linear-gradient(180deg,#ffe27a,#d4a017);box-shadow:0 6px 0 #8a6508,0 12px 24px #0008}
+.allin{background:linear-gradient(180deg,#c58bff,#6a1bd1);color:#fff;box-shadow:0 6px 0 #3d0f80,0 0 30px #a855f7aa;animation:pulse2 1.6s infinite}@keyframes pulse2{50%{box-shadow:0 6px 0 #3d0f80,0 0 50px #c58bff}}
+.start{font-size:22px;padding:20px 44px;animation:pulse2 1.4s infinite}
+.rz{display:flex;flex-direction:column;gap:6px;align-items:center;min-width:220px}.q{display:flex;gap:6px}.q button{padding:8px 12px;font-size:13px}
+input[type=range]{width:220px;accent-color:#ffd54a;padding:0}#ro{font:800 22px Cinzel;color:#ffe27a}#tm{font:800 22px Cinzel;color:#ffd54a;min-width:50px}
+#toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:#c62828;padding:10px 20px;border-radius:12px;display:none;font-weight:700;z-index:9;box-shadow:0 8px 24px #000}
+.cf{position:fixed;top:-10px;width:9px;height:14px;z-index:8;animation:fall linear forwards;pointer-events:none}@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+@media(max-width:800px){.seat{width:100px;padding:3px}.seat video{height:50px}.nm{font-size:11px}.card{width:38px;height:54px}.card i{font-size:17px}.seat .card{width:24px;height:34px}.act{padding:12px 16px;font-size:15px;min-width:90px}.logo{font-size:40px}#felt{left:4%;right:4%}}
+</style></head><body>
+<div id="home"><div class="suits">♠ ♥ ♣ ♦</div><h1 class="logo">Nik's Casino</h1><div class="sub">POKER NIGHT, ANYWHERE</div>
+<p>Play Texas Hold'em with your friends face-to-face, even when you're miles apart.</p>
+<input id="name" placeholder="Your name" maxlength="16"> <input id="code" placeholder="Room code" maxlength="8" style="width:140px;text-transform:uppercase"><br><br>
+<button class="big" onclick="enter(Math.random().toString(36).slice(2,7).toUpperCase())">✨ Create a Game</button><button class="big g" onclick="enter($('#code').value)">Join a Game</button></div>
+<div id="game"><div id="felt"></div><div id="center"></div><div id="seats"></div><div id="bar"></div></div><div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),tok=localStorage.tok||(localStorage.tok=crypto.randomUUID());
+let ice=[{urls:'stun:stun.l.google.com:19302'}],ws,S,local,room,name,off=0,pcs={},vids={},tmr;
+const toast=m=>{const t=$('#toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2500)};
+const send=o=>ws.readyState===1&&ws.send(JSON.stringify(o));
+if(new URLSearchParams(location.search).get('r'))$('#code').value=new URLSearchParams(location.search).get('r');
+async function enter(c){c=(c||'').trim().toUpperCase();if(!c)return toast('Enter a room code');room=c;name=$('#name').value||'Player';
+  history.replaceState(0,'','?r='+c);$('#home').style.display='none';$('#game').style.display='block';
+  if(!local)try{local=await navigator.mediaDevices.getUserMedia({video:true,audio:true})}catch(e){toast('No camera/mic – playing without video')}
+  connect()}
+function connect(){ws=new WebSocket((location.protocol=='https:'?'wss://':'ws://')+location.host);
+  ws.onopen=()=>send({t:'join',room,name,tok});
+  ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.t=='state'){S=m.s;off=m.s.now-Date.now();render();rtc()}else if(m.t=='ice')ice=m.servers;else if(m.t=='signal')sig(m);else if(m.t=='err')toast(m.m)};
+  ws.onclose=()=>{toast('Reconnecting…');setTimeout(connect,1500)}}
+const seen=new Set();let prevPhase='';
+const isNew=k=>{if(seen.has(k))return'';seen.add(k);return' deal'};
+const card=(c,k)=>c<0?`<span class="card b${isNew('b'+k)}"></span>`:`<span class="card ${(c/13|0)%2?'r':''}${isNew('f'+k+c)}"><i>${'23456789TJQKA'[c%13]}</i><b>${'♣♦♥♠'[c/13|0]}</b></span>`;
+function confetti(){for(let i=0;i<60;i++){const e=document.createElement('div');e.className='cf';e.style.left=Math.random()*100+'vw';e.style.background=['#ffd54a','#ff4d6d','#4dffb8','#7aa2ff'][i%4];e.style.animationDelay=Math.random()*.6+'s';e.style.animationDuration=2+Math.random()*2+'s';document.body.appendChild(e);setTimeout(()=>e.remove(),4500)}}
+function render(){const n=S.o.max,me=Math.max(S.me,0);if(S.phase=='preflop'&&prevPhase!='preflop')seen.clear();if(S.results&&prevPhase!='showdown')confetti();prevPhase=S.phase;
+  $('#center').innerHTML=`<div class="room">ROOM <b>${S.code}</b></div><div class="pot"><span class="chip"></span><span class="chip c2"></span><span class="chip c3"></span> <b>$${S.pot}</b></div><div>${S.board.map((c,i)=>card(c,'x'+i)).join('')}</div><div class="win">${S.results?S.results.map(r=>`🏆 ${S.seats[r.seat].name} wins $${r.amount}<small>${r.hand}</small>`).join(''):S.phase=='waiting'?'Waiting for players…':''}</div>`;
+  $('#seats').innerHTML='';
+  S.seats.forEach((p,i)=>{const a=2*Math.PI*((i-me+n)%n)/n,d=document.createElement('div');
+    d.className='seat'+(S.turn==i?' turn':'')+(p&&p.inHand&&p.folded?' out':'')+(p&&!p.connected?' off':'');
+    d.style.left=50+42*Math.sin(a)+'%';d.style.top=50+(S.me<0?36:34)*Math.cos(a)*-1+'%';
+    if(!p){d.innerHTML=S.me<0?`<button class="g" onclick="send({t:'sit',seat:${i}})">Sit</button>`:'<small>empty</small>';}
+    else{d.innerHTML=`<div class="v"></div><b class="nm">${p.name}</b> ${S.dealer==i?'<span class="d">D</span>':''}${S.sb==i&&S.phase!='waiting'?' SB':''}${S.bb==i&&S.phase!='waiting'?' BB':''}<div class="stk">$${p.stack}</div>${p.bet?`<div class="bet${isNew('bet'+i+p.bet)}"><span class="chip"></span>$${p.bet}</div>`:''}${p.allin?'<div class="tag">ALL-IN</div>':''}${!p.connected?'<div class="tag off">OFFLINE</div>':''}${p.folded&&p.inHand?'<div class="tag off">FOLDED</div>':''}<div>${p.cards.map((c,j)=>card(c,i+'_'+j)).join('')}</div>`;
+      d.querySelector('.v').appendChild(vid(i))}
+    $('#seats').appendChild(d)});
+  const L=S.legal,bar=$('#bar');bar.innerHTML='';
+  if(S.host&&S.phase!='preflop'&&S.phase!='flop'&&S.phase!='turn'&&S.phase!='river')bar.innerHTML+=`<button class="act start" onclick="send({t:'start'})">▶ DEAL THE CARDS</button>`;
+  if(L){bar.innerHTML+=`<span id="tm"></span><button class="act fold" onclick="act('fold')">FOLD</button><button class="act call" onclick="act('${L.canCheck?'check':'call'}')">${L.canCheck?'Check':'Call $'+L.toCall}</button>`;
+    if(L.canRaise){const fr=f=>Math.round(Math.min(L.max,Math.max(L.min,S.cur+f*(S.pot+L.toCall))));
+      bar.innerHTML+=`<div class="rz"><div class="q"><button class="g" onclick="setR(${fr(.5)})">½ Pot</button><button class="g" onclick="setR(${fr(.75)})">¾ Pot</button><button class="g" onclick="setR(${fr(1)})">Pot</button></div><input id="r" type="range" min="${L.min}" max="${L.max}" value="${L.min}" oninput="ro.textContent='$'+this.value"><output id="ro">$${L.min}</output></div><button class="act raise" onclick="act('raise',+r.value)">${S.cur?'RAISE':'BET'}</button><button class="act allin" onclick="act('allin')">ALL IN $${L.max}</button>`}}
+  else if(S.me>=0&&S.turn>=0)bar.innerHTML+=`<span>⏳ ${S.seats[S.turn].name} is thinking… <span id="tm"></span></span>`;
+  bar.innerHTML+=`<button class="g sm" onclick="tg('video')">📷</button><button class="g sm" onclick="tg('audio')">🎤</button>`;
+  clearInterval(tmr);tmr=setInterval(()=>{const e=$('#tm');if(e&&S.deadline)e.textContent=Math.max(0,Math.ceil((S.deadline-Date.now()-off)/1000))+'s'},250)}
+const setR=v=>{r.value=v;ro.textContent='$'+v};const act=(type,amount)=>send({t:'act',type,amount});
+const tg=k=>local&&local.getTracks().filter(t=>t.kind==k).forEach(t=>t.enabled=!t.enabled);
+function vid(i){if(!vids[i]){const v=document.createElement('video');v.autoplay=v.playsInline=true;v.muted=true;vids[i]=v}
+  if(i==S.me&&local&&vids[i].srcObject!=local)vids[i].srcObject=local;return vids[i]}
+// --- WebRTC mesh; lower seat initiates. Signaling relayed by server; media never touches it.
+function peer(j){let pc=pcs[j];if(pc&&['failed','closed'].includes(pc.connectionState)){pc.close();pc=null}if(pc)return pc;
+  pc=pcs[j]=new RTCPeerConnection({iceServers:ice});
+  if(local)local.getTracks().forEach(t=>pc.addTrack(t,local));
+  pc.onicecandidate=e=>e.candidate&&send({t:'signal',to:j,data:{c:e.candidate}});
+  pc.ontrack=e=>{const v=vid(j);v.srcObject=e.streams[0];v.muted=false;v.play().catch(()=>{})};return pc}
+async function rtc(){if(S.me<0)return;for(const p of S.seats){if(!p||p.seat==S.me||!p.connected)continue;
+  const pc=pcs[p.seat];if(S.me<p.seat&&(!pc||['failed','closed','disconnected'].includes(pc.connectionState))){const q=peer(p.seat);
+    await q.setLocalDescription(await q.createOffer({offerToReceiveVideo:true,offerToReceiveAudio:true}));send({t:'signal',to:p.seat,data:{d:q.localDescription}})}}}
+async function sig(m){const pc=peer(m.from);if(m.data.d){await pc.setRemoteDescription(m.data.d);
+  if(m.data.d.type=='offer'){await pc.setLocalDescription(await pc.createAnswer());send({t:'signal',to:m.from,data:{d:pc.localDescription}})}}
+  else if(m.data.c)pc.addIceCandidate(m.data.c).catch(()=>{})}
+</script></body></html>
