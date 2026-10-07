@@ -28,9 +28,14 @@ class Table {
   next(from,f){ for(let i=1;i<=this.o.max;i++){const p=this.seats[(from+i+this.o.max)%this.o.max]; if(p&&f(p)) return p.seat;} return -1; }
   sit(id,name,seat){ if(seat<0||seat>=this.o.max||this.seats[seat]||this.players().some(p=>p.id===id)) return false;
     this.seats[seat]={id,name,seat,stack:this.o.stack,bet:0,total:0,folded:false,allin:false,acted:false,cards:[],inHand:false,shown:false,connected:true}; return true; }
-  leave(id){ const p=this.players().find(p=>p.id===id); if(!p) return; if(p.inHand&&!p.folded&&this.turn===p.seat) this.act(id,'fold'); else if(p.inHand) p.folded=true; this.seats[p.seat]=null; }
+  leave(id){ const p=this.players().find(p=>p.id===id); if(!p) return; p.connected=false;
+    if(!p.inHand){ this.seats[p.seat]=null; return; }
+    p.gone=true; // stays seated until next hand so its bets remain in the pot
+    if(STREETS.includes(this.phase)&&!p.folded){
+      if(this.turn===p.seat) this.act(id,'fold'); else { p.folded=true; if(this.live().length===1) this.award(); } } }
   post(p,a){ a=Math.min(a,p.stack); p.stack-=a; p.bet+=a; p.total+=a; if(!p.stack) p.allin=true; }
   start(){
+    this.players().filter(p=>p.gone).forEach(p=>this.seats[p.seat]=null);
     const el=this.players().filter(p=>p.stack>0); if(el.length<2){this.phase='waiting';return false;}
     this.players().forEach(p=>Object.assign(p,{bet:0,total:0,folded:false,allin:false,acted:false,cards:[],shown:false,inHand:p.stack>0}));
     this.deck=this.rng(); this.board=[]; this.results=null;
